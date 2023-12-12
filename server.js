@@ -6,8 +6,8 @@ const cors = require('cors');
 const app = express();
 const port = 3000;
 
-const accountSid = 'ACcc223995e80a284f66262c6974a6e78e';
-const authToken = '0d06829c1e3d5a4e449f841f37e8bb03';
+const accountSid = 'SID';
+const authToken = 'AUTH';
 const client = twilio(accountSid, authToken);
 
 app.use(cors());
@@ -18,7 +18,7 @@ app.post('/start-task', (req, res) => {
     
     setTimeout(() => {
         client.messages.create({
-            body: `You're done with ${taskName}, great job!\n\nReopen the extension to automatically begin your next task!`,
+            body: `You're done with ${taskName}, great job!\n\nReopen the extension to automatically begin your next task (if you still have remaining tasks)!`,
             from: '+15813336995', // my Twilio number
             to: to
         })
