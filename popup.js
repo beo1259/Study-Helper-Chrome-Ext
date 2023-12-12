@@ -17,6 +17,8 @@ document.addEventListener('DOMContentLoaded', function () {
         document.getElementById('task-form').style.display = 'none';
     });
 
+    let timerInterval;
+
     document.getElementById('stopSessionButton').addEventListener('click', stopSession);
 
     document.getElementById('savePhoneNumberButton').addEventListener('click', function () {
@@ -34,7 +36,9 @@ document.addEventListener('DOMContentLoaded', function () {
         if (confirm("Are you sure you want to stop the session?")) {
             clearInterval(timerInterval);
             countdownEl.innerHTML = "Session Stopped";
-            stopSessionButton.style.display = 'none';
+            document.getElementById('stopSessionButton').style.display = 'none';
+
+
         }
     });
 
@@ -64,13 +68,15 @@ function startTask(taskIndex, remainingTime = null) {
         notifyServerStartTask(task.name, taskTimeMillis);
 
         beginTimer(task.name, taskTimeMillis, function () {
-            startTask(taskIndex + 1); // Automatically start the next task
+            startTask(taskIndex + 1); 
         });
     } else {
-        // All tasks completed, update session state
-        updateSessionState(false); // Set the session as inactive
-        checkSessionState(); // Update UI
+        updateSessionState(false); 
+        checkSessionState(); 
         clearCurrentTaskState();
+        document.getElementById('countdown').innerHTML = "All tasks completed!";
+        document.getElementById('stopSessionButton').style.display = 'none'; 
+        document.getElementById('startSessionButton').style.display = 'block'; 
     }
 }
 
@@ -226,14 +232,12 @@ function updateTaskList() {
             return tasks;
         });
 
-        // Append the elements to the task item
         taskItem.appendChild(taskNameContainer);
         taskItem.appendChild(timeContainer);
         taskItem.appendChild(deleteButton);
         taskItem.appendChild(moveUpButton);
         taskItem.appendChild(moveDownButton);
 
-        // Append the task item to the task list
         taskListElement.appendChild(taskItem);
     });
 }
@@ -257,16 +261,12 @@ function deleteTask(index) {
 }
 
 function moveTask(index, direction) {
-    // Check if moving up is possible
     if (direction === -1 && index > 0) {
-        // Swap tasks
         [tasks[index], tasks[index - 1]] = [tasks[index - 1], tasks[index]];
         updateTaskList();
         saveTasks();
     }
-    // Check if moving down is possible
     else if (direction === 1 && index < tasks.length - 1) {
-        // Swap tasks
         [tasks[index], tasks[index + 1]] = [tasks[index + 1], tasks[index]];
         updateTaskList();
         saveTasks();
@@ -290,17 +290,17 @@ function startSession() {
         return;
     }
     document.getElementById('startSessionButton').style.display = 'none';
-    document.getElementById('stopSessionButton').style.display = 'block'; // Show the stop button
-    startTask(0); // Start the first task
+    document.getElementById('stopSessionButton').style.display = 'block'; 
+    startTask(0); 
 }
 
 function stopSession() {
     localStorage.setItem('isSessionActive', 'false');
     checkSessionState();
-    clearInterval(intervalId); // Clear the interval
+    clearInterval(intervalId); 
     const countdownEl = document.getElementById('countdown');
     countdownEl.innerHTML = "Session Stopped";
-    document.getElementById('stopSessionButton').style.display = 'none'; // Hide the stop button
+    document.getElementById('stopSessionButton').style.display = 'none'; 
     clearCurrentTaskState();
 }
 
@@ -331,7 +331,7 @@ function beginTimer(currentTask, totalMilliseconds, callback, remainingTime = nu
     const countdownEl = document.getElementById('countdown');
     let timeRemaining = remainingTime !== null ? remainingTime : totalMilliseconds;
 
-    const timerInterval = setInterval(function () {
+    intervalId = setInterval(function () {
         const minutes = Math.floor(timeRemaining / 60000);
         const seconds = Math.floor((timeRemaining % 60000) / 1000);
 
@@ -339,8 +339,7 @@ function beginTimer(currentTask, totalMilliseconds, callback, remainingTime = nu
         timeRemaining -= 1000;
 
         if (timeRemaining < 0) {
-
-            clearInterval(timerInterval);
+            clearInterval(intervalId);
             countdownEl.innerHTML = "Task Complete!";
             const nextTaskButton = document.createElement('button');
             nextTaskButton.textContent = 'Begin Next';
@@ -349,6 +348,7 @@ function beginTimer(currentTask, totalMilliseconds, callback, remainingTime = nu
             });
             countdownEl.appendChild(nextTaskButton);
 
+            callback();
             
         }
     }, 1000);
