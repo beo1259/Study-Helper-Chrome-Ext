@@ -30,6 +30,14 @@ document.addEventListener('DOMContentLoaded', function () {
         phoneNumber = savedPhoneNumber;
     }
 
+    stopSessionButton.addEventListener('click', function () {
+        if (confirm("Are you sure you want to stop the session?")) {
+            clearInterval(timerInterval);
+            countdownEl.innerHTML = "Session Stopped";
+            stopSessionButton.style.display = 'none';
+        }
+    });
+
 });
 
 function saveTasks() {
@@ -103,17 +111,14 @@ function loadCurrentTaskState() {
             const remainingTime = duration - timePassed;
             startTask(taskIndex, remainingTime);
         } else {
-            // If the timer should have already finished
             startTask(taskIndex + 1);
         }
     }
 }
 
 function checkSessionState() {
-    // Check if a session is active in localStorage
     var isSessionActive = localStorage.getItem('isSessionActive') === 'true';
 
-    // Set the display properties based on the session state
     document.getElementById('startSessionButton').style.display = isSessionActive ? 'none' : 'block';
     document.getElementById('stopSessionButton').style.display = isSessionActive ? 'block' : 'none';
 }
@@ -349,13 +354,4 @@ function beginTimer(currentTask, totalMilliseconds, callback, remainingTime = nu
     }, 1000);
 
     
- 
-
-    stopSessionButton.addEventListener('click', function () {
-        if (confirm("Are you sure you want to stop the session?")) {
-            clearInterval(timerInterval);
-            countdownEl.innerHTML = "Session Stopped";
-            stopSessionButton.style.display = 'none';
-        }
-    });
 }
