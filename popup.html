@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Study Buddy</title>
+    <link rel="stylesheet" href="popup.css">
+
+    <link href="https://fonts.cdnfonts.com/css/sf-pro-display" rel="stylesheet">
+    <script src="popup.js"></script>
+
+
+    <meta http-equiv="Content-Security-Policy"
+        content="script-src 'self' https://cdnjs.cloudflare.com/ajax/libs/twilio/3.69.0/ 'wasm-unsafe-eval' 'inline-speculation-rules' http://localhost:* http://127.0.0.1:*">
+
+</head>
+
+<body>
+    <div class="content-container">
+        <div style="text-align:center">
+            <input type="tel" class="input" id="user-phone-number" placeholder="Enter Your Phone Number">
+            <button type="button" class="inputButton" id="savePhoneNumberButton">Save Phone Number</button>
+            <div class="button-container" style="text-align:center">
+
+
+
+                <button type="button" class="button" id="newTaskButton">Set A Task</button>
+                <button type="button" class="button" id="startSessionButton">Start Study Session</button>
+                <button type="button" class="button" id="stopSessionButton">Stop Session</button>
+            </div>
+            <p id="countdown"></p>
+        </div>
+
+        <div id="task-form">
+            <input type="text" class="input" id="task-name" placeholder="Enter Task Name">
+            <input type="number" class="input" id="task-time" placeholder="Time Required (minutes)">
+            <button type="button" class="inputButton" id="addTaskButton">Add Task</button>
+            <button type="button" class="inputButton" id="cancelTaskButton">Cancel</button>
+        </div>
+
+        <!-- Here is where the task list should be -->
+        <ul id="task-list">
+            <!-- Tasks will be appended here by your JavaScript -->
+        </ul>
+    </div>
+</body>
+
+</html>

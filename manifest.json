@@ -1,0 +1,20 @@
+{
+    "manifest_version": 3,
+    "name": "Study Buddy",
+    "version": "1.0.1",
+
+    "externally_connectable": {
+        "matches": ["*://*.google.com/*"]
+    },
+    "permissions": [
+        "http://localhost:3000/",
+        "notifications",
+        "storage",
+        "alarms" 
+    ],
+
+
+    "action": {
+        "default_popup": "popup.html"
+    }
+}

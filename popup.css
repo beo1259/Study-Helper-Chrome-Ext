@@ -1,0 +1,153 @@
+@font-face {
+    font-family: 'sfpro';
+    src: url('./SFPro/SF-Pro-Text-Light.otf');
+}
+
+body {
+    padding-top: 10px;
+    font-family: 'sfpro';
+    background-color: #121212;
+    color: #E0E0E0; 
+    font-family: 'Roboto', sans-serif; 
+    width: 280px; 
+    min-height: 375px;
+    max-height: 375px; 
+    margin: 0;
+    overflow: auto; 
+}
+
+.button-container {
+    display: flex;
+    justify-content: center;
+    align-items: center; 
+}
+
+/* width */
+::-webkit-scrollbar {
+    width: 0px;
+  }
+
+
+.button, .inputButton {
+    background-color: #333333; 
+    color: #FFFFFF;
+    border: none;
+    margin-top: 3px;
+    
+    padding: 12px 24px;
+    border-radius: 8px;
+    transition: background-color 0.3s ease, color 0.3s ease; 
+    align-items: center;
+}
+
+.button:hover, .inputButton:hover {
+    background-color: gold; 
+    color: black;
+}
+
+.content-container {
+    max-height: 375px;
+    overflow-y: auto; 
+}
+
+.input {
+    background-color: #1C1C1C;
+    border: 1px solid #424242; 
+    color: #FFFFFF;
+    padding: 10px;
+    border-radius: 8px;
+    margin-right: 10px ;
+    margin-left: 10px;
+    width: 85% !important;
+    margin-top: 10px; 
+    margin-bottom: 10px;
+    
+}
+
+@media (max-width: 600px) {
+    .button, .inputButton {
+        padding: 10px 20px; 
+    }
+    .input {
+        width: calc(100% - 20px); 
+    }
+}
+
+ul#task-list {
+    list-style-type: none;
+    padding: 0;
+}
+
+ul#task-list li {
+    background-color: #222;
+    color: #fff;
+    padding: 10px;
+    margin-bottom: 5px;
+    border-radius: 4px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    transition: background-color 0.3s;
+}
+
+ul#task-list li:hover {
+    background-color: #333;
+}
+
+button {
+    margin-left: 10px;
+    margin-right: 4px;
+    background-color: #444;
+    color: white;
+    border: none;
+    padding: 8px 8px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 12px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    border-radius: 4px;
+    white-space: nowrap;
+    flex-shrink: 0;
+}
+
+button:hover {
+    background-color: #555;
+}
+
+button.delete {
+    font-size: 13px;
+    padding: 7px 7px;
+    transition: background 0.2s ease;
+}
+
+.button.move{
+    font-size: 13px;
+    padding: 7px 7px;
+}
+
+button.delete:hover{
+    background-color: red;
+    color: white
+}
+
+.task-item {
+    display: flex;
+    align-items: center;
+    padding: 5px;
+    background-color: #222;
+    color: #fff;
+    border-radius: 4px;
+    margin-bottom: 5px;
+    margin-right: 10px;
+    margin-left: 10px;
+}
+
+.task-name {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    flex-grow: 1;
+    margin-right: 10px !important;
+}
