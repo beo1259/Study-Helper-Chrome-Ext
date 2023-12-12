@@ -1,9 +1,7 @@
 document.addEventListener('DOMContentLoaded', function () {
     loadTasks();
     checkSessionState();
-    document.getElementById('newTaskButton').addEventListener('click', function () {
-        document.getElementById('task-form').style.display = 'block';
-    });
+
 
     document.getElementById('startSessionButton').addEventListener('click', startSession);
 
@@ -25,7 +23,7 @@ document.addEventListener('DOMContentLoaded', function () {
         const phoneNumber = document.getElementById('user-phone-number').value;
         localStorage.setItem('userPhoneNumber', phoneNumber);
     });
-    
+
     const savedPhoneNumber = localStorage.getItem('userPhoneNumber');
     if (savedPhoneNumber) {
         document.getElementById('user-phone-number').value = savedPhoneNumber;
@@ -54,14 +52,16 @@ function startTask(taskIndex, remainingTime = null) {
         updateCountdownDisplay(task.name, taskTimeMillis);
 
         saveCurrentTaskState(taskIndex, Date.now(), taskTimeMillis);
-        
+
         notifyServerStartTask(task.name, taskTimeMillis);
-        
+
         beginTimer(task.name, taskTimeMillis, function () {
-            startTask(taskIndex + 1);
+            startTask(taskIndex + 1); // Automatically start the next task
         });
     } else {
-        console.log("All tasks completed");
+        // All tasks completed, update session state
+        updateSessionState(false); // Set the session as inactive
+        checkSessionState(); // Update UI
         clearCurrentTaskState();
     }
 }
@@ -80,17 +80,17 @@ function notifyServerStartTask(taskName, duration) {
         },
         body: JSON.stringify({ to: userPhoneNumber, taskName: taskName, duration: duration })
     })
-    .then(response => response.json())
-    .then(data => {
-        if (data.success) {
-            console.log(`Server started task "${taskName}"`);
-        } else {
-            console.error('Server failed to start task: ', data.errorMessage);
-        }
-    })
-    .catch((error) => {
-        console.error('Error notifying server to start task: ', error);
-    });
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                console.log(`Server started task "${taskName}"`);
+            } else {
+                console.error('Server failed to start task: ', data.errorMessage);
+            }
+        })
+        .catch((error) => {
+            console.error('Error notifying server to start task: ', error);
+        });
 }
 
 
@@ -143,6 +143,7 @@ function createInputFields() {
     const addTaskButton = document.createElement('button');
     addTaskButton.textContent = 'Add Task';
     addTaskButton.addEventListener('click', function () {
+        document.getElementById('task-form').style.display = 'block';
         addTask(taskNameInput.value, taskTimeInput.value);
         taskNameInput.value = '';
         taskTimeInput.value = '';
@@ -161,6 +162,10 @@ function createInputFields() {
     console.log(tasks)
 
     formDisplayed = true;
+}
+
+function updateSessionState(isActive) {
+    localStorage.setItem('isSessionActive', isActive.toString());
 }
 
 function addTask(taskName, taskTime) {
@@ -295,6 +300,7 @@ function stopSession() {
 }
 
 
+
 function updateCountdownDisplay(currentTask, remainingMillis) {
     const countdownEl = document.getElementById('countdown');
     const minutes = Math.floor(remainingMillis / 60000);
@@ -331,22 +337,25 @@ function beginTimer(currentTask, totalMilliseconds, callback, remainingTime = nu
 
             clearInterval(timerInterval);
             countdownEl.innerHTML = "Task Complete!";
-
             const nextTaskButton = document.createElement('button');
             nextTaskButton.textContent = 'Begin Next';
             nextTaskButton.addEventListener('click', function () {
                 callback();
             });
             countdownEl.appendChild(nextTaskButton);
+
+            
         }
     }, 1000);
+
+    
+ 
 
     stopSessionButton.addEventListener('click', function () {
         if (confirm("Are you sure you want to stop the session?")) {
             clearInterval(timerInterval);
             countdownEl.innerHTML = "Session Stopped";
-            stopSessionButton.style.display = 'none'; // Hide the button
+            stopSessionButton.style.display = 'none';
         }
     });
-
 }

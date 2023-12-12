@@ -17,28 +17,16 @@ body {
 }
 
 .button-container {
-    display: flex;
+    display: flex; 
     justify-content: center;
     align-items: center; 
 }
-
-/* width */
 ::-webkit-scrollbar {
     width: 0px;
   }
 
 
-.button, .inputButton {
-    background-color: #333333; 
-    color: #FFFFFF;
-    border: none;
-    margin-top: 3px;
-    
-    padding: 12px 24px;
-    border-radius: 8px;
-    transition: background-color 0.3s ease, color 0.3s ease; 
-    align-items: center;
-}
+
 
 .button:hover, .inputButton:hover {
     background-color: gold; 
@@ -59,7 +47,6 @@ body {
     margin-right: 10px ;
     margin-left: 10px;
     width: 85% !important;
-    margin-top: 10px; 
     margin-bottom: 10px;
     
 }
@@ -94,9 +81,11 @@ ul#task-list li:hover {
     background-color: #333;
 }
 
-button {
-    margin-left: 10px;
-    margin-right: 4px;
+button{
+    margin-left: 8px;
+    margin-right: 8px;
+    margin-bottom: 6px;
+    max-width: 200px;
     background-color: #444;
     color: white;
     border: none;
@@ -107,7 +96,27 @@ button {
     font-size: 12px;
     cursor: pointer;
     transition: background-color 0.3s;
-    border-radius: 4px;
+    border-radius: 8px;
+    white-space: nowrap;
+    flex-shrink: 0;
+}
+
+.button, .inputButton{
+    margin-left: 8px;
+    margin-right: 8px;
+    margin-bottom: 6px;
+    max-width: 200px;
+    background-color: #444;
+    color: white;
+    border: none;
+    padding: 8px 8px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 12px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    border-radius: 8px;
     white-space: nowrap;
     flex-shrink: 0;
 }
